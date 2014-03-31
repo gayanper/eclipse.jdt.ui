@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Christian Georgi<christian.georgi@sap.com> - Bug 462770: Use OS symbol for 'Ctrl'
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.preferences;
 
@@ -65,6 +66,9 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 	private static final Key PREF_CODEASSIST_AUTOINSERT= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOINSERT);
 	private static final Key PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA);
 	private static final Key PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVADOC= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVADOC);
+	private static final Key PREF_CODEASSIST_AUTOCOMPLETION= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOCOMPLETION);
+	private static final Key PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOCOMPLETION_TRIGGERS);
+	private static final Key PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET= getJDTUIKey(PreferenceConstants.CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET);
 	private static final Key PREF_CODEASSIST_SHOW_VISIBLE_PROPOSALS= getJDTUIKey(PreferenceConstants.CODEASSIST_SHOW_VISIBLE_PROPOSALS);
 	private static final Key PREF_CODEASSIST_SORTER= getJDTUIKey(PreferenceConstants.CODEASSIST_SORTER);
 	private static final Key PREF_CODEASSIST_CASE_SENSITIVITY= getJDTUIKey(PreferenceConstants.CODEASSIST_CASE_SENSITIVITY);
@@ -84,6 +88,9 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 				PREF_CODEASSIST_AUTOINSERT,
 				PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA,
 				PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVADOC,
+				PREF_CODEASSIST_AUTOCOMPLETION,
+				PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS,
+				PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET,
 				PREF_CODEASSIST_SHOW_VISIBLE_PROPOSALS,
 				PREF_CODEASSIST_SORTER,
 				PREF_CODEASSIST_CASE_SENSITIVITY,
@@ -105,6 +112,8 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 	private Button fCompletionOverwritesRadioButton;
 	private Button fInsertParameterNamesRadioButton;
 	private Button fInsertBestGuessRadioButton;
+	private Button fAutocompletionInsertsRadioButton;
+	private Button fAutocompletionResetsRadioButton;
 
 	public CodeAssistConfigurationBlock(IStatusChangeListener statusListener, IWorkbenchPreferenceContainer workbenchcontainer) {
 		super(statusListener, null, getAllKeys(), workbenchcontainer);
@@ -306,10 +315,24 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOACTIVATION_DELAY, 4, 20);
 
 		label= PreferencesMessages.JavaEditorPreferencePage_autoActivationTriggersForJava;
-		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA, 100, 4, 20);
+		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVA, 100, 15, 20);
 
 		label= PreferencesMessages.JavaEditorPreferencePage_autoActivationTriggersForJavaDoc;
-		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVADOC, 100, 4, 20);
+		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOACTIVATION_TRIGGERS_JAVADOC, 100, 15, 20);
+
+		label= PreferencesMessages.JavaEditorPreferencePage_enableAutoCompletion;
+		final Button autocompletion= addCheckBox(composite, label, PREF_CODEASSIST_AUTOCOMPLETION, trueFalse, 0);
+		autocompletion.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateAutocompletionControls();
+			}
+		});
+
+		label= PreferencesMessages.JavaEditorPreferencePage_autoCompletionTriggers;
+		addLabelledTextField(composite, label, PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS, 100, 15, 20);
+
+		addAutocompletionRadioButtons(composite);
 	}
 
 
@@ -389,6 +412,36 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		label.setLayoutData(gd);
 	}
 
+	private void addAutocompletionRadioButtons(Composite contentAssistComposite) {
+		Composite composite= new Composite(contentAssistComposite, SWT.NONE);
+		GridData ccgd= new GridData();
+		ccgd.horizontalSpan= 2;
+		ccgd.horizontalIndent= LayoutUtil.getIndent();
+		composite.setLayoutData(ccgd);
+		GridLayout ccgl= new GridLayout();
+		ccgl.marginWidth= 0;
+		ccgl.numColumns= 2;
+		composite.setLayout(ccgl);
+
+		SelectionListener selectionListener= new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean reset= fAutocompletionResetsRadioButton.getSelection();
+				setValue(PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET, reset);
+			}
+		};
+
+		fAutocompletionInsertsRadioButton= new Button(composite, SWT.RADIO | SWT.LEFT);
+		fAutocompletionInsertsRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_autoCompletionTriggersInsert);
+		fAutocompletionInsertsRadioButton.setLayoutData(new GridData());
+		fAutocompletionInsertsRadioButton.addSelectionListener(selectionListener);
+
+		fAutocompletionResetsRadioButton= new Button(composite, SWT.RADIO | SWT.LEFT);
+		fAutocompletionResetsRadioButton.setText(PreferencesMessages.JavaEditorPreferencePage_autoCompletionTriggersReset);
+		fAutocompletionResetsRadioButton.setLayoutData(new GridData());
+		fAutocompletionResetsRadioButton.addSelectionListener(selectionListener);
+	}
+
 	public void initialize() {
 		initializeFields();
 	}
@@ -406,7 +459,20 @@ class CodeAssistConfigurationBlock extends OptionsConfigurationBlock {
 		fInsertBestGuessRadioButton.setEnabled(value);
 
 		updateAutoactivationControls();
- 	}
+
+		value= getBooleanValue(PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET);
+		fAutocompletionInsertsRadioButton.setSelection(!value);
+		fAutocompletionResetsRadioButton.setSelection(value);
+
+		updateAutocompletionControls();
+  }
+
+	private void updateAutocompletionControls() {
+		boolean autocompletion= getBooleanValue(PREF_CODEASSIST_AUTOCOMPLETION);
+		setControlEnabled(PREF_CODEASSIST_AUTOCOMPLETION_TRIGGERS, autocompletion);
+		fAutocompletionInsertsRadioButton.setEnabled(autocompletion);
+		fAutocompletionResetsRadioButton.setEnabled(autocompletion);
+	}
 
     private void updateAutoactivationControls() {
         boolean autoactivation= getBooleanValue(PREF_CODEASSIST_AUTOACTIVATION);

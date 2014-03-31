@@ -8,6 +8,7 @@
  * Contributors:
  *		Andrew McCullough - initial API and implementation
  *		IBM Corporation  - general improvement and bug fixes, partial reimplementation
+ *		Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.text.java;
 
@@ -334,7 +335,7 @@ public class ParameterGuessingProposal extends JavaMethodCompletionProposal {
 			if (argumentProposals.length == 0) {
 				JavaCompletionProposal proposal= new JavaCompletionProposal(paramName, 0, paramName.length(), null, paramName, 0);
 				if (isLastParameter)
-					proposal.setTriggerCharacters(new char[] { ',' });
+					proposal.setTriggerCharacters(JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(new char[] { ',' }));
 				argumentProposals= new ICompletionProposal[] { proposal };
 			}
 

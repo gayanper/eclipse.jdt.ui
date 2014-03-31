@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.text.java;
 
@@ -273,7 +274,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 */
 	@Override
 	protected char[] computeTriggerCharacters() {
-		return GENERIC_TYPE_TRIGGERS;
+		return JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(GENERIC_TYPE_TRIGGERS);
 	}
 
 	/**

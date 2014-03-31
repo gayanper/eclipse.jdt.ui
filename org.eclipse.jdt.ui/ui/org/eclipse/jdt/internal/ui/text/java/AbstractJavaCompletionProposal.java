@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Christian Georgi<christian.georgi@sap.com> - Bug 462770: Use OS symbol for 'Ctrl'
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857 
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.text.java;
 
@@ -491,6 +492,21 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 				}
 			}
 			return;
+		} else if (document != null && invalidateIfAutocompletionRestartRequired(trigger)) {
+			try {
+				Point selection= viewer.getSelectedRange();
+				int newLength= selection.x + selection.y - getReplacementOffset();
+				if (newLength >= 0) {
+					setReplacementLength(newLength);
+					String replacement= document.get(getReplacementOffset(), newLength) + trigger;
+					setReplacementString(replacement);
+					setCursorPosition(replacement.length());
+					apply(document, trigger, offset);
+				}
+			} catch (BadLocationException x) {
+				JavaPlugin.log(x);
+			}
+			return;
 		}
 
 		// don't eat if not in preferences, XOR with Ctrl
@@ -503,6 +519,15 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 
 		apply(document, trigger, offset);
 		fToggleEating= false;
+	}
+
+	private boolean invalidateIfAutocompletionRestartRequired(char trigger) {
+		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
+		if (store.getBoolean(PreferenceConstants.CODEASSIST_AUTOCOMPLETION) && store.getBoolean(PreferenceConstants.CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET)) {
+			char[] triggerCharacters= getTriggerCharacters();
+			return (triggerCharacters != null && CharOperation.contains(trigger, triggerCharacters));
+		}
+		return false;
 	}
 
 	/**
@@ -763,13 +788,17 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 		if (!isOffsetValid(offset))
 			return fIsValidated= false;
 
-		fIsValidated= isValidPrefix(getPrefix(document, offset));
+		String prefix= getPrefix(document, offset);
+		fIsValidated= isValidPrefix(prefix);
 
 		if (fIsValidated && event != null) {
 			// adapt replacement range to document change
-			int delta= (event.fText == null ? 0 : event.fText.length()) - event.fLength;
-			final int newLength= Math.max(getReplacementLength() + delta, 0);
-			setReplacementLength(newLength);
+			//int delta= (event.fText == null ? 0 : event.fText.length()) - event.fLength;
+			//final int newLength= Math.max(getReplacementLength() + delta, 0);
+			//setReplacementLength(newLength);
+			
+			// if we just became validated a negative delta might not overlap us, just use prefix length
+			setReplacementLength(prefix.length());
 		}
 
 		return fIsValidated;

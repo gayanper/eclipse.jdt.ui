@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.ui.text.java;
 
@@ -715,8 +716,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		if (fJavaProject != null)
 			javaProposal.setProposalInfo(new FieldProposalInfo(fJavaProject, proposal));
 
-		javaProposal.setTriggerCharacters(VAR_TRIGGER);
-
+		javaProposal.setTriggerCharacters(JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(VAR_TRIGGER));
 		return javaProposal;
 	}
 
@@ -741,8 +741,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		if (fJavaProject != null)
 			javaProposal.setProposalInfo(new FieldProposalInfo(fJavaProject, proposal));
 
-		javaProposal.setTriggerCharacters(VAR_TRIGGER);
-
+		javaProposal.setTriggerCharacters(JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(VAR_TRIGGER));
 		return javaProposal;
 	}
 
@@ -800,7 +799,7 @@ public class CompletionProposalCollector extends CompletionRequestor {
 		StyledString label= fLabelProvider.createSimpleLabelWithType(proposal);
 		int relevance= computeRelevance(proposal);
 		final JavaCompletionProposal javaProposal= new JavaCompletionProposal(completion, start, length, image, label, relevance);
-		javaProposal.setTriggerCharacters(VAR_TRIGGER);
+		javaProposal.setTriggerCharacters(JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(VAR_TRIGGER));
 		return javaProposal;
 	}
 

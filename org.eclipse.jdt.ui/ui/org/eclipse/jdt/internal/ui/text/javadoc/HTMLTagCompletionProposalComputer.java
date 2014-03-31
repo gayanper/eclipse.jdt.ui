@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.text.javadoc;
 
@@ -32,6 +33,7 @@ import org.eclipse.jdt.ui.text.java.ContentAssistInvocationContext;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposalComputer;
 import org.eclipse.jdt.ui.text.java.IJavadocCompletionProcessor;
 
+import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.java.JavaCompletionProposal;
 
@@ -212,7 +214,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 		if (!newText.startsWith(IHtmlTagConstants.HTML_CLOSE_PREFIX))
 			severity++;
 		JavaCompletionProposal proposal= new JavaCompletionProposal(newText, offset, length, image, labelText, severity, true);
-		proposal.setTriggerCharacters( new char[] { '>' });
+		proposal.setTriggerCharacters(JavaPlugin.getActiveCodeAssistAutoCompletionTriggerCharacters(new char[] { '>' }));
 		return proposal;
 	}
 

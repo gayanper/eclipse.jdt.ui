@@ -13,6 +13,7 @@
  *     Guven Demir <guven.internet+eclipse@gmail.com> - [package explorer] Alternative package name shortening: abbreviation - https://bugs.eclipse.org/bugs/show_bug.cgi?id=299514
  *     Thomas Reinhardt <thomas@reinhardt.com> - [build path] user library dialog should allow to select JAR from workspace - http://bugs.eclipse.org/300542
  *     Stephan Herrmann <stephan@cs.tu-berlin.de> - [compiler][null] inheritance of null annotations as an option - https://bugs.eclipse.org/388281
+ *     Timo Kinnunen <timo.kinnunen@gmail.com> - [content assist] Allow to configure auto insertion trigger characters - https://bugs.eclipse.org/bugs/show_bug.cgi?id=348857
  *******************************************************************************/
 package org.eclipse.jdt.internal.ui.preferences;
 
@@ -161,6 +162,7 @@ public final class PreferencesMessages extends NLS {
 	public static String JavaEditorPreferencePage_presentProposalsInAlphabeticalOrder;
 	public static String JavaEditorPreferencePage_coloring_element;
 	public static String JavaEditorPreferencePage_enableAutoActivation;
+	public static String JavaEditorPreferencePage_enableAutoCompletion;
 	public static String JavaEditorPreferencePage_automaticallyAddImportInsteadOfQualifiedName;
 	public static String JavaEditorPreferencePage_suggestStaticImports;
 	public static String JavaEditorPreferencePage_completionInserts;
@@ -172,6 +174,9 @@ public final class PreferencesMessages extends NLS {
 	public static String JavaEditorPreferencePage_autoActivationDelay;
 	public static String JavaEditorPreferencePage_autoActivationTriggersForJava;
 	public static String JavaEditorPreferencePage_autoActivationTriggersForJavaDoc;
+	public static String JavaEditorPreferencePage_autoCompletionTriggers;
+	public static String JavaEditorPreferencePage_autoCompletionTriggersInsert;
+	public static String JavaEditorPreferencePage_autoCompletionTriggersReset;
 	public static String JavaEditorPreferencePage_completePrefixes;
 	public static String JavaEditorPreferencePage_backgroundForMethodParameters;
 	public static String JavaEditorPreferencePage_foregroundForMethodParameters;
