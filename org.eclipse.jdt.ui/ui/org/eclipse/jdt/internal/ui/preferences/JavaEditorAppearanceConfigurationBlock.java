@@ -56,6 +56,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 
 	private final String[][] fAppearanceColorListModel= new String[][] {
 			{PreferencesMessages.JavaEditorPreferencePage_matchingBracketsHighlightColor2, PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR, null},
+			{PreferencesMessages.JavaEditorPreferencePage_matchingBracketsHighlightBgColor, PreferenceConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR, PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR},
 			{PreferencesMessages.JavaEditorPreferencePage_backgroundForMethodParameters, PreferenceConstants.CODEASSIST_PARAMETERS_BACKGROUND, null },
 			{PreferencesMessages.JavaEditorPreferencePage_foregroundForMethodParameters, PreferenceConstants.CODEASSIST_PARAMETERS_FOREGROUND, null },
 			{PreferencesMessages.JavaEditorPreferencePage_backgroundForCompletionReplacement, PreferenceConstants.CODEASSIST_REPLACEMENT_BACKGROUND, null },
@@ -89,6 +90,7 @@ class JavaEditorAppearanceConfigurationBlock extends AbstractConfigurationBlock 
 		ArrayList<OverlayKey> overlayKeys= new ArrayList<OverlayKey>();
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR));
+		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, PreferenceConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_MATCHING_BRACKETS));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_HIGHLIGHT_BRACKET_AT_CARET_LOCATION));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_ENCLOSING_BRACKETS));

@@ -1545,6 +1545,10 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 
 	/** Preference key for matching brackets color. */
 	protected final static String MATCHING_BRACKETS_COLOR=  PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
+
+	/** Preference key for matching brackets background color. */
+	protected final static String MATCHING_BRACKETS_BG_COLOR= PreferenceConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR;
+	
 	/**
 	 * A named preference that controls whether the editor shows a breadcrumb.
 	 * <p>
@@ -3143,7 +3147,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 
 		fBracketMatcher.setSourceVersion(getPreferenceStore().getString(JavaCore.COMPILER_SOURCE));
 		support.setCharacterPairMatcher(fBracketMatcher);
-		support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS, MATCHING_BRACKETS_COLOR, HIGHLIGHT_BRACKET_AT_CARET_LOCATION, ENCLOSING_BRACKETS);
+		support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS, MATCHING_BRACKETS_COLOR, MATCHING_BRACKETS_BG_COLOR, HIGHLIGHT_BRACKET_AT_CARET_LOCATION, ENCLOSING_BRACKETS);
 
 		super.configureSourceViewerDecorationSupport(support);
 	}

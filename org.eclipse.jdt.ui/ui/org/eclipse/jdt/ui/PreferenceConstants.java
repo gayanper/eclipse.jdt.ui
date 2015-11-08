@@ -2850,7 +2850,7 @@ public class PreferenceConstants {
 	 * <p>
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
-	 * @since 3.11
+	 * @since 3.12
 	 */
 	public final static String CODEASSIST_AUTOCOMPLETION= "content_assist_autocompletion"; //$NON-NLS-1$
 
@@ -2959,7 +2959,7 @@ public class PreferenceConstants {
 	 * <p>
 	 * Value is of type <code>String</code>. All characters that trigger auto code assist.
 	 * </p>
-	 * @since 3.11
+	 * @since 3.12
 	 */
 	public final static String CODEASSIST_AUTOCOMPLETION_TRIGGERS= "content_assist_autocompletion_triggers"; //$NON-NLS-1$
 
@@ -2969,7 +2969,7 @@ public class PreferenceConstants {
 	 * <p>
 	 * Value is of type <code>Boolean</code>.
 	 * </p>
-	 * @since 3.11
+	 * @since 3.12
 	 */
 	public final static String CODEASSIST_AUTOCOMPLETION_TRIGGERS_RESET= "content_assist_autocompletion_triggers_reset"; //$NON-NLS-1$
 
@@ -3667,6 +3667,20 @@ public class PreferenceConstants {
 	 */
 	public final static String EDITOR_SOURCE_HOVER_BACKGROUND_COLOR_SYSTEM_DEFAULT= "sourceHoverBackgroundColor.SystemDefault"; //$NON-NLS-1$
 
+	/**
+	 * A named preference that holds the background color used to highlight matching brackets.
+	 * <p>
+	 * Value is of type <code>String</code>. A RGB color value encoded as a string
+	 * using class <code>PreferenceConverter</code>
+	 * </p>
+	 *
+	 * @see org.eclipse.jface.resource.StringConverter
+	 * @see org.eclipse.jface.preference.PreferenceConverter
+	 * @since 3.12
+	 */
+	public final static String EDITOR_MATCHING_BRACKETS_BG_COLOR=  "matchingBracketsBgColor"; //$NON-NLS-1$
+	
+	
 	/**
 	 * Initializes the given preference store with the default values.
 	 *

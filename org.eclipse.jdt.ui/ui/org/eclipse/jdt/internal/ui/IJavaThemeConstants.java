@@ -139,4 +139,9 @@ public interface IJavaThemeConstants {
 	 */
 	String PROPERTIES_FILE_COLORING_COMMENT= ID_PREFIX + PreferenceConstants.PROPERTIES_FILE_COLORING_COMMENT;
 
+	/**
+	 * Theme constant for the background color used to highlight matching brackets.
+	 */
+	String EDITOR_MATCHING_BRACKETS_BG_COLOR= ID_PREFIX + PreferenceConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR;
+	
 }

@@ -154,6 +154,10 @@ public class JavaUIPreferenceInitializer extends AbstractPreferenceInitializer {
 				PreferenceConstants.PROPERTIES_FILE_COLORING_COMMENT,
 				findRGB(registry, IJavaThemeConstants.PROPERTIES_FILE_COLORING_COMMENT, new RGB(63, 127, 95)), fireEvent);
 
+		setDefault(
+				store,
+				PreferenceConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR,
+				findRGB(registry, IJavaThemeConstants.EDITOR_MATCHING_BRACKETS_BG_COLOR, new RGB(192, 192,192)), fireEvent);
 
 	}
 
