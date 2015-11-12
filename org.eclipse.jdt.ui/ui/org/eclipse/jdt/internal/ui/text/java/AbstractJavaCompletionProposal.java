@@ -793,12 +793,12 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 
 		if (fIsValidated && event != null) {
 			// adapt replacement range to document change
-			//int delta= (event.fText == null ? 0 : event.fText.length()) - event.fLength;
-			//final int newLength= Math.max(getReplacementLength() + delta, 0);
-			//setReplacementLength(newLength);
+			int delta= (event.fText == null ? 0 : event.fText.length()) - event.fLength;
+			final int newLength= Math.max(getReplacementLength() + delta, 0);
+			setReplacementLength(newLength);
 			
 			// if we just became validated a negative delta might not overlap us, just use prefix length
-			setReplacementLength(prefix.length());
+			//setReplacementLength(prefix.length());
 		}
 
 		return fIsValidated;
